@@ -1,6 +1,6 @@
 {
   "name": "react-leaflet",
-  "proxy": "http://localhost:3001/",
+  "proxy": "https://react-leaflet-backend.vercel.app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
