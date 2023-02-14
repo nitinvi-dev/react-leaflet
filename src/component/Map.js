@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import locationIcon from "../contants/icon";
-import parkIcon from "../contants/parkicon";
+import locationIcon from "../constants/icon";
+import parkIcon from "../constants/parkicon";
 
 export default function Map() {
-  const [currentPosition, setcurrentPosition] = useState(null);
-  const [parkPosition, setparkPosition] = useState(null);
+  const [currentPosition, setCurrentPosition] = useState(null);
+  const [parkPosition, setParkPosition] = useState(null);
 
-  function ParkMarker() {
+  const ParkMarker = () => {
     return parkPosition === null
       ? null
       : parkPosition.map((val, index) => (
@@ -24,7 +24,7 @@ export default function Map() {
     const map = useMap();
     useEffect(() => {
       map.locate().on("locationfound", function (e) {
-        setcurrentPosition([e.latlng.lat, e.latlng.lng]);
+        setCurrentPosition([e.latlng.lat, e.latlng.lng]);
       });
     });
 
@@ -40,9 +40,7 @@ export default function Map() {
 
   const findParks = async (e) => {
     let headers = new Headers();
-
     headers.append("Content-Type", "application/json");
-
     const body = JSON.stringify({
       radius: e.target.value,
       lat: String(currentPosition[0]),
@@ -58,7 +56,7 @@ export default function Map() {
     fetch("https://react-leaflet-backend.vercel.app/api/nearbyparks", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setparkPosition(result.data);
+        setParkPosition(result.data);
       })
       .catch((error) => console.log("error", error));
   };
